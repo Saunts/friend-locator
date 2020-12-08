@@ -1,0 +1,7 @@
+{
+  "name": "friend-locator",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
