@@ -1,7 +1,8 @@
 {
   "name": "friend-locator",
   "integrations": {
-    "capacitor": {}
+    "capacitor": {},
+    "cordova": {}
   },
   "type": "angular"
 }
