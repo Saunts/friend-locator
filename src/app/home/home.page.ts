@@ -5,6 +5,8 @@ import { AngularFirestore } from '@angular/fire/firestore';
 import { Router } from '@angular/router';
 import { AuthService } from '../auth.service';
 
+declare var google: any;
+
 @Component({
   selector: 'app-home',
   templateUrl: 'home.page.html',
