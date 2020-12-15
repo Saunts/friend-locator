@@ -17,6 +17,10 @@ const routes: Routes = [
     path: 'friend',
     redirectTo: '/home/friend',
     pathMatch: 'full'
+  },
+  {
+    path: 'profilepic',
+    loadChildren: () => import('./profilepic/profilepic.module').then( m => m.ProfilepicPageModule)
   }
 ];
 

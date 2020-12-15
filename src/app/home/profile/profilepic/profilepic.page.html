@@ -1,0 +1,17 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="home"></ion-back-button>
+    </ion-buttons>
+    <ion-title>profilepic</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-button expand="full">
+    <ion-icon lazy="true" slot="start" name="image"></ion-icon>
+    <ion-label slot="end">Upload Image</ion-label>
+    <input type="file" (change)="loadImageFromDevice($event)" id="file-input"
+      accept="image/png, image/jpeg">
+  </ion-button>
+</ion-content>

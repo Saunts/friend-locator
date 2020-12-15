@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { AuthService } from 'src/app/auth.service';
 
 @Component({
@@ -8,18 +9,35 @@ import { AuthService } from 'src/app/auth.service';
 })
 export class ProfilePage implements OnInit {
   user: any;
+  testimg: any;
 
   constructor(
-    private authSvc: AuthService
+    private authSvc: AuthService,
+    private router: Router
   ) { }
 
-  ngOnInit() {
+  ngOnInit(){
     this.user = JSON.parse(localStorage.getItem('profile'));
+    this.testimg = 'data:image/jpeg;base64,' + this.user.avatar;
+    console.log(this.testimg);
     console.log(this.user.displayname);
+  }
+
+  ngOnDestroy(){
+
+  }
+
+  ionViewWillEnter() {
+    this.ngOnInit();
   }
 
   logout(){
     this.authSvc.logout();
+  }
+
+  newpic(){
+    this.ngOnDestroy();
+    this.router.navigateByUrl('/home/profile/profilepic');
   }
 
 }

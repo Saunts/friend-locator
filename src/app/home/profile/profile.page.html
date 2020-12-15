@@ -7,6 +7,10 @@
 
 <ion-content>
   <ion-label>{{ user.displayname }}</ion-label>
+  <ion-button (click)="newpic()">Upload new profile picture</ion-button>
+  <ion-avatar class="ion-justify-content-center">
+    <img [src]="testimg">
+  </ion-avatar>
 </ion-content>
 
 
