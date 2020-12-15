@@ -28,6 +28,9 @@ export class ProfilePage implements OnInit {
   }
 
   ionViewWillEnter() {
+    if(!localStorage.getItem('profile')){
+      this.router.navigateByUrl('/login');
+    }
     this.ngOnInit();
   }
 
