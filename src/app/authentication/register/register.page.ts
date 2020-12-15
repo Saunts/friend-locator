@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { ToastController } from '@ionic/angular';
 // import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { AuthService } from 'src/app/auth.service';
+import { Platform } from '@ionic/angular';
 // const geo = Geolocation;
 
 @Component({
@@ -17,7 +18,8 @@ export class RegisterPage implements OnInit {
     private authSvc: AuthService,
     private firestore: AngularFirestore,
     private router: Router,
-    private toastController: ToastController
+    private toastController: ToastController,
+    private platform: Platform
   ) { }
 
   ngOnInit() {
@@ -36,13 +38,25 @@ export class RegisterPage implements OnInit {
     //   console.log(error);
     // });
 
-    await navigator.geolocation.getCurrentPosition((res) => {
-      lat = res.coords.latitude;
-      lng = res.coords.longitude;
-    },
-    (err) => {
-      console.log(err);
-    });
+    this.platform.ready().then(() => {
+      navigator.geolocation.getCurrentPosition((res) => {
+        lat = res.coords.latitude;
+        lng = res.coords.longitude;
+        console.log(lat, lng);
+        this.authSvc.register(email.value, password.value)
+        .then((res) => {
+          console.log('New account created');
+          console.log(displayname);
+          this.authSvc.newprofile(res.user.uid, res.user.email, displayname.value, lat, lng);
+          this.router.navigateByUrl('/login');
+        }).catch((error) => {
+          console.log(error);
+        })
+      },
+      (err) => {
+        console.log(err);
+      });
+    })
 
     // await Geolocation.getCurrentPosition()
     // .then((res) => {
@@ -53,16 +67,6 @@ export class RegisterPage implements OnInit {
     //   console.log(err);
     // });
 
-    console.log(lat, lng);
-    this.authSvc.register(email.value, password.value)
-    .then((res) => {
-      console.log('New account created');
-      console.log(displayname);
-      this.authSvc.newprofile(res.user.uid, res.user.email, displayname.value, lat, lng);
-      this.router.navigateByUrl('/login');
-    }).catch((error) => {
-      console.log(error);
-    })
   }
 
 }

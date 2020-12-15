@@ -5,18 +5,19 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<ion-content [fullscreen]="true">
   <ion-list>
-    <ion-item-sliding *ngFor="let friend of friend">
+    <ion-item-sliding *ngFor="let friend of friend" disabled="false">
       
-      <ion-item-options side="start">
+      <ion-item-options side="end">
         <ion-item-option>
           <ion-icon name="trash" slot="icon-only" (click)="presentAlert(friend.email)"></ion-icon>
         </ion-item-option>
       </ion-item-options>
 
       <ion-item>
-        {{ friend.displayname }}
+        <ion-label>{{ friend.displayname }}</ion-label>
+        <ion-label>{{ friend.email }}</ion-label>
       </ion-item>
     
 
@@ -24,21 +25,21 @@
   </ion-list>
 </ion-content>
 
-<ion-tabs>
-  <ion-tab-bar slot="bottom">
-    <ion-tab-button tab="friend">
-      <ion-icon name="people"></ion-icon>
-      <ion-label>Friend List</ion-label>
-    </ion-tab-button>
 
-    <ion-tab-button tab="home">
-      <ion-icon name="map"></ion-icon>
-      <ion-label>Map</ion-label>
-    </ion-tab-button>
+<ion-tab-bar slot="bottom">
+  <ion-tab-button [routerLink]=''>
+    <ion-icon name="people"></ion-icon>
+    <ion-label>Friend List</ion-label>
+  </ion-tab-button>
 
-    <ion-tab-button tab="profile">
-      <ion-icon name="person"></ion-icon>
-      <ion-label>Profile</ion-label>
-    </ion-tab-button>
-  </ion-tab-bar>
-</ion-tabs>
+  <ion-tab-button [routerLink]='["/home"]'>
+    <ion-icon name="map"></ion-icon>
+    <ion-label>Map</ion-label>
+  </ion-tab-button>
+
+  <ion-tab-button [routerLink]='["/home/profile"]'>
+    <ion-icon name="person"></ion-icon>
+    <ion-label>Profile</ion-label>
+  </ion-tab-button>
+</ion-tab-bar>
+

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { Router } from '@angular/router';
 import { AlertController } from '@ionic/angular';
+import { AuthService } from 'src/app/auth.service';
 
 @Component({
   selector: 'app-friend-list',
@@ -13,20 +14,13 @@ export class FriendListPage implements OnInit {
   friend: any = [];
 
   constructor(
-    private firestore: AngularFirestore,
+    private authSvc: AuthService,
     private alertCtrl: AlertController,
     private router: Router
   ) { }
 
   ngOnInit( ) {
-    var friends = JSON.parse(localStorage.getItem('profile')).friend;
-    friends.forEach(element => {
-      this.firestore.collection('profile').doc(element).get().toPromise()
-      .then((res) => {
-        console.log(res.data());
-        this.friend.push(res.data());
-      })
-    });
+    this.friend = JSON.parse(localStorage.getItem('friend'));
   }
 
 
@@ -36,15 +30,15 @@ export class FriendListPage implements OnInit {
 
   async presentAlert(email){
     const alert = await this.alertCtrl.create({
-      header: 'Deleting Item',
-      message: 'Delete this item?',
+      header: 'Remove friend',
+      message: 'Remove this friend?',
       buttons: [
         {
           text: 'Cancel',
           role: 'cancel'
         },
         {
-          text: 'Delete',
+          text: 'Remove',
           handler: () => this.delete(email)
         }
       ]
@@ -53,6 +47,15 @@ export class FriendListPage implements OnInit {
   }
 
   delete(email){
+    // var friends = JSON.parse(localStorage.getItem('friend'));
+    // // this.friend.array.forEach((f) => {
+    // //   if(f.email === email){
+    // //     f.pop;
+    // //   }
+    // // });
+
+    console.log(email);
+    this.authSvc.remove(email);
 
   }
 

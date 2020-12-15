@@ -4,7 +4,7 @@ import { AngularFireAuth } from '@angular/fire/auth';
 import { AngularFirestore, AngularFirestoreDocument } from '@angular/fire/firestore';
 import { Router } from '@angular/router';
 import { Profile } from './profile';
-import { ToastController } from '@ionic/angular';
+import { LoadingController, ToastController } from '@ionic/angular';
 
 
 @Injectable({
@@ -18,7 +18,8 @@ export class AuthService {
     public afauth: AngularFireAuth,
     public router: Router,
     public ngZone: NgZone,
-    public toastController: ToastController
+    public toastController: ToastController,
+    public loadingController: LoadingController
   ) {
     this.afauth.authState.subscribe(user => {
       if(user){
@@ -37,8 +38,8 @@ export class AuthService {
     await this.firestore.collection('profile').doc(email).get().toPromise()
     .then((res) => {
       console.log("Success in Fetching data");
-      console.log(res.data());
-      console.log(JSON.stringify(res.data()));
+      // console.log(res.data());
+      // console.log(JSON.stringify(res.data()));
       localStorage.setItem('profile', JSON.stringify(res.data()));
       // this.firestore.collection
     })
@@ -75,6 +76,7 @@ export class AuthService {
     return this.afauth.signOut().then(() => {
       localStorage.removeItem('user');
       localStorage.removeItem('profile');
+      localStorage.removeItem('friend');
       this.router.navigateByUrl('/login');
     })
   }
@@ -98,6 +100,7 @@ export class AuthService {
           console.log(current);
           localStorage.setItem('profile', JSON.stringify(current));
           this.firestore.collection('profile').doc(current.email).update(current);
+          this.fetchfriend();
           this.router.navigateByUrl('/home/friend');
         }
         else{
@@ -111,10 +114,59 @@ export class AuthService {
     // catch(exceptions){
     //   toast.present();
     // }
-
     
     
   }
 
+  async fetchfriend(){
+    var friend = [];
+    localStorage.setItem('friend', JSON.stringify(friend));
+    var friends = JSON.parse(localStorage.getItem('profile')).friend;
+    friends.forEach(element => {
+    this.firestore.collection('profile').doc(element).get().toPromise()
+    .then((res) => {
+      console.log(res.data());
+      // friend.push(res.data());
+      var f = JSON.parse(localStorage.getItem('friend'));
+      f.push(res.data());
+      localStorage.setItem('friend', JSON.stringify(f));
+    })
+   });
+   
+  }
+
+  async remove(email){
+
+    const loading = await this.loadingController.create({
+      cssClass: 'my-custom-class',
+      message: 'Please wait...'
+    });
+
+    const toast = await this.toastController.create({
+      message: 'Friend has been removed',
+      duration: 2000
+    });
+
+    var user = JSON.parse(localStorage.getItem('profile'));
+
+    var i = user.friend.indexOf(email);
+    user.friend.splice(i, 1);
+
+    loading.present();
+
+    localStorage.removeItem('profile');
+    localStorage.setItem('profile', JSON.stringify(user));
+
+    this.firestore.collection('profile').doc(user.email).update(user);
+
+    this.fetchfriend();
+    
+    loading.dismiss();
+
+    toast.present();
+
+    this.router.navigateByUrl('/home');
+
+  }
 
 }
