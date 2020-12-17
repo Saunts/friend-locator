@@ -1,6 +1,6 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { LoadingController } from '@ionic/angular';
+import { LoadingController, ToastController } from '@ionic/angular';
 import { AuthService } from 'src/app/auth.service';
 
 @Component({
@@ -13,7 +13,8 @@ export class LoginPage implements OnInit {
   constructor(
     public authSvc: AuthService,
     public router: Router,
-    private loadingController: LoadingController
+    private loadingController: LoadingController,
+    private toastController: ToastController
   ) { }
 
   ngOnInit() {
@@ -23,6 +24,11 @@ export class LoginPage implements OnInit {
     const loading = await this.loadingController.create({
       cssClass: 'my-custom-class',
       message: 'Please wait...'
+    });
+
+    const toast = await this.toastController.create({
+      message: 'Wrong email or password.',
+      duration: 2000
     });
     
     this.authSvc.login(email.value, password.value)
@@ -36,6 +42,7 @@ export class LoginPage implements OnInit {
       })
     })
     .catch((err) => {
+      toast.present();
       console.log(err);
     });
   }
