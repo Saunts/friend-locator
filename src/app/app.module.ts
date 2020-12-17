@@ -25,7 +25,7 @@ import { environment } from 'src/environments/environment';
     BrowserModule, 
     IonicModule.forRoot(), 
     AppRoutingModule,
-    AngularFireModule.initializeApp(environment.firebaseConfig),
+    AngularFireModule.initializeApp(process.env.firebaseConfig),
     AngularFireAuthModule,
     AngularFirestoreModule,
   ],
