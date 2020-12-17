@@ -24,7 +24,23 @@ export class HomePage {
     private firestore: AngularFirestore,
     // private map: MapsAPILoader,
     private router: Router
-  ) {}
+  ) {
+    setInterval(()=>{
+      // var lat;
+      // var lng;
+      // navigator.geolocation.getCurrentPosition((res) => {
+      //    lat = res.coords.latitude;
+      //    lng = res.coords.longitude;
+      //    var user = JSON.parse(localStorage.getItem('profile'));
+      //    user.lat = lat;
+      //    user.lng = lng;
+      //    localStorage.setItem('profile', JSON.stringify(user));
+      //    this.firestore.collection('profile').doc(user.email).update(user);
+      // });
+      console.log(new Date());
+      this.checkin();
+    }, 600000);
+  }
 
   ionViewDidEnter(){
     console.log('test1');

@@ -6,11 +6,45 @@
 </ion-header>
 
 <ion-content>
-  <ion-label>{{ user.displayname }}</ion-label>
-  <ion-button (click)="newpic()">Upload new profile picture</ion-button>
-  <ion-avatar class="ion-justify-content-center">
-    <img [src]="testimg">
-  </ion-avatar>
+  <ion-grid>
+    <ion-row>
+      <ion-col>
+        <div>
+          <ion-avatar class="ion-justify-content-center">
+            <img [src]="testimg">
+          </ion-avatar>
+        </div>
+      </ion-col>
+      <ion-col>
+        <div class="vertical-center">
+          <ion-label class="vertical-center">{{ user.displayname }}</ion-label>
+        </div>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>
+        <div>
+          <ion-button (click)="newpic()">Upload a new profile picture</ion-button>
+        </div>
+      </ion-col>
+    </ion-row>
+
+    <ion-row *ngIf="user.email == 'austyn.eugene@student.umn.ac.id'">
+      <ion-col>
+        <div>
+          Kesan Pesan(Hanya terlihat di akun ini):
+          Laptop gw kasian banget mesti jalanin nodejs tiap minggu, mantep sih ngerti cara pake ionic sama angular sekarang
+        </div>
+      </ion-col>
+    </ion-row>
+    <ion-row *ngIf="user.email == 'austyn.eugene@student.umn.ac.id'">
+      <ion-col>
+        <div>
+         Gk ada feed btw
+        </div>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
 </ion-content>
 
 

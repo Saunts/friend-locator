@@ -20,10 +20,11 @@ export class FriendListPage implements OnInit {
   ) { }
 
   ngOnInit( ) {
-    this.friend = JSON.parse(localStorage.getItem('friend'));
+    
   }
 
   ionViewWillEnter() {
+    this.friend = JSON.parse(localStorage.getItem('friend'));
     if(!localStorage.getItem('profile')){
       this.router.navigateByUrl('/login');
     }

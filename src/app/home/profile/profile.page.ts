@@ -19,8 +19,8 @@ export class ProfilePage implements OnInit {
   ngOnInit(){
     this.user = JSON.parse(localStorage.getItem('profile'));
     this.testimg = 'data:image/jpeg;base64,' + this.user.avatar;
-    console.log(this.testimg);
-    console.log(this.user.displayname);
+    // console.log(this.testimg);
+    // console.log(this.user.displayname);
   }
 
   ngOnDestroy(){
