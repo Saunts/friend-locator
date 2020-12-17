@@ -60,7 +60,7 @@ export class FriendListPage implements OnInit {
     // //   }
     // // });
 
-    console.log(email);
+    // console.log(email);
     this.authSvc.remove(email);
 
   }

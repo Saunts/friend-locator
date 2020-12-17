@@ -101,12 +101,21 @@ export class AuthService {
       duration: 2000
     });
 
+    const exist = await this.toastController.create({
+      message: 'Friend Already in Friend list.',
+      duration: 2000
+    });
+
     // try{
       this.firestore.collection('profile').doc(email.value).get().toPromise()
       .then((res) => {
         if(res.data() != null){
           var current = JSON.parse(localStorage.getItem('profile'));
           console.log(current);
+          if(current.friend.indexOf(email.value) >= 0){
+            exist.present();
+            return;
+          }
           current.friend.push(email.value);
           console.log(current);
           localStorage.setItem('profile', JSON.stringify(current));

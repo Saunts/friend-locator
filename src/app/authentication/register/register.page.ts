@@ -31,41 +31,46 @@ export class RegisterPage implements OnInit {
     var lng: any;
     console.log(email);
     console.log(displayname.value);
-    // await this.geo.getCurrentPosition().then((res) => {
-    //   lat = res.coords.latitude;
-    //   lng = res.coords.longitude;
-    // }).catch((error) => {
-    //   console.log(error);
-    // });
-
-    this.platform.ready().then(() => {
-      navigator.geolocation.getCurrentPosition((res) => {
-        lat = res.coords.latitude;
-        lng = res.coords.longitude;
-        console.log(lat, lng);
-        this.authSvc.register(email.value, password.value)
-        .then((res) => {
-          console.log('New account created');
-          console.log(displayname);
-          this.authSvc.newprofile(res.user.uid, res.user.email, displayname.value, lat, lng);
-          this.router.navigateByUrl('/login');
-        }).catch((error) => {
-          console.log(error);
-        })
-      },
-      (err) => {
-        console.log(err);
+    if(displayname.value.length <= 1){
+      const toast = await this.toastController.create({
+        message: "Username can't be empty",
+        duration: 2000
       });
-    })
+      toast.present();
+      return;
+    }
+    else{
+      this.platform.ready().then(() => {
+        navigator.geolocation.getCurrentPosition((res) => {
+          lat = res.coords.latitude;
+          lng = res.coords.longitude;
+          console.log(lat, lng);
+          this.authSvc.register(email.value, password.value)
+          .then((res) => {
+            console.log('New account created');
+            console.log(displayname);
+            this.authSvc.newprofile(res.user.uid, res.user.email, displayname.value, lat, lng);
+            this.router.navigateByUrl('/login');
+          }).catch(async (error) => {
+            console.log(error);
+            const toast = await this.toastController.create({
+              message: error.message,
+              duration: 2000
+            });
+            toast.present();
+          })
+        },
+        async (err) => {
+          console.log(err);
+          const toast = await this.toastController.create({
+            message: "Please allow location service",
+            duration: 2000
+          });
+          toast.present();
+        });
+      })
+    }
 
-    // await Geolocation.getCurrentPosition()
-    // .then((res) => {
-    //   lat = res.coords.latitude;
-    //   lng = res.coords.longitude;
-    // })
-    // .catch((err) => {
-    //   console.log(err);
-    // });
 
   }
 

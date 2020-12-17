@@ -43,17 +43,17 @@ export class HomePage {
   }
 
   ionViewDidEnter(){
-    console.log('test1');
+    // console.log('test1');
     this.user = JSON.parse(localStorage.getItem('profile'));
     if(!localStorage.getItem('profile')){
       this.router.navigateByUrl('/login');
     }
 
-    console.log(this.user);
+    // console.log(this.user);
     
     this.friend = JSON.parse(localStorage.getItem('friend'));
 
-    console.log(this.friend);
+    // console.log(this.friend);
 
     this.showMap(this.user.lat, this.user.lng);
   }
@@ -76,20 +76,12 @@ export class HomePage {
     this.friend.forEach((f) => {
       var flat = f.lat;
       var flng = f.lng;
-      console.log(f.displayname.substring(0, 1));
+      // console.log(f.displayname.substring(0, 1));
       const flocation = new google.maps.LatLng(flat, flng);
       const fmarker = new google.maps.Marker({
         position: flocation,
         map: this.map,
         label: f.displayname.substring(0, 1),
-        // shape: {
-        //   coords: [
-        //     flat,
-        //     flng,
-        //     2
-        //   ],
-        //   type: 'circle'
-        // }
       });
     });
   }
@@ -101,7 +93,7 @@ export class HomePage {
     await navigator.geolocation.getCurrentPosition((res) => {
       lat = res.coords.latitude;
       lng = res.coords.longitude;
-      console.log(res.coords.latitude);
+      // console.log(res.coords.latitude);
 
       u.lat = lat;
       u.lng = lng;
